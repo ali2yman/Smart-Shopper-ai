@@ -1,0 +1,14 @@
+from crewai.tools import tool
+from tavily import TavilyClient
+import os
+
+
+TAVILY_KEY = os.getenv("TavilyAPI")    
+
+
+search_client = TavilyClient(api_key=TAVILY_KEY)
+
+@tool
+def search_engine_tool(query: str):
+    """Useful for search-based queries. Use this to find current information about any query related pages using a search engine"""
+    return search_client.search(query)

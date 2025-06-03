@@ -1,8 +1,10 @@
-from Agents.keywords_Search_Agent import create_keywords_search_agent
-from Tasks.Create_Keywords_search_Task import create_keywords_search_task   
+from Agents.keywords_Search_Agent0 import create_keywords_search_agent
+from Agents.Search_engine_Agent1 import Search_engine_agent
+from Tasks.Create_Keywords_search_Task import create_keywords_search_task 
+from Tasks.Search_engine_task1 import search_engine_task  
 from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource  
 from crewai import Crew, Process, LLM
-from openai import OpenAI   
+from tavily import TavilyClient
 import agentops
 import os
 import sys
@@ -33,13 +35,7 @@ DeepSeek_llm = LLM(
 )
 
 
-# Mistral_llm = LLM(
-#     api_key=MISTRAL_API_KEY,
-#     base_url="https://openrouter.ai/api/v1",
-#     model="openrouter.ai/mistralai/devstral-small:free",
-#     temperature=0.0,
-#     max_tokens=100
-# )
+
 
 
 
@@ -51,31 +47,30 @@ company_context = StringKnowledgeSource(
     content=about_company
 )
 
-# Create agent
+# Create agents
 keywords_search_agent = create_keywords_search_agent(DeepSeek_llm)
+Search_engine_Agent = Search_engine_agent(DeepSeek_llm)
 
-# Create task
+
+# Create tasks
 keywords_search_task = create_keywords_search_task(
-    product_name="iphone 16",
+    product_name="macbook m2",
     websites_list=["www.amazon.eg", "www.jumia.com.eg"],
     country_name="Egypt",
     no_keywords=5,
     language="english",
     search_queries_recommendation_agent=keywords_search_agent
 )
+Search_engine_Task = search_engine_task(0.6, Search_engine_Agent)
+
 
 # Define the crew
 rankyx_crew = Crew(
-    agents=[keywords_search_agent],
-    tasks=[keywords_search_task],
+    agents=[keywords_search_agent,Search_engine_Agent],
+    tasks=[keywords_search_task,Search_engine_Task],
     process=Process.sequential,
     knowledge_sources=[company_context]
 )
 
 # Execute the crew
-crew_results = rankyx_crew.kickoff(
-    
-)
-
-# Print results
-print(crew_results)
+crew_results = rankyx_crew.kickoff()
