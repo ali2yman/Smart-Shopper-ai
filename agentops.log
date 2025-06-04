@@ -1,3 +1,3 @@
-2025-06-03 22:54:58,577 - INFO - Session Replay for default trace: https://app.agentops.ai/sessions?trace_id=212251b0dc5b65e694fd32da7d297f81
-2025-06-03 22:55:23,561 - INFO - Session Replay for default.session trace: https://app.agentops.ai/sessions?trace_id=212251b0dc5b65e694fd32da7d297f81
-2025-06-03 22:55:23,952 - ERROR - [agentops.InternalSpanProcessor] Error uploading logfile: Upload failed: 401
+2025-06-04 16:30:32,143 - INFO - Session Replay for default trace: https://app.agentops.ai/sessions?trace_id=85f0416ae4d1a496b20d560284a3b1ef
+2025-06-04 16:31:09,849 - INFO - Session Replay for default.session trace: https://app.agentops.ai/sessions?trace_id=85f0416ae4d1a496b20d560284a3b1ef
+2025-06-04 16:31:10,213 - ERROR - [agentops.InternalSpanProcessor] Error uploading logfile: Upload failed: 401

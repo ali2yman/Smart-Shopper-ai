@@ -1,0 +1,54 @@
+{
+  "products": [
+    {
+      "page_url": "https://www.amazon.eg/-/en/Apple-MGH93LL-A-iPhone-64GB/dp/B08L5P7DYY",
+      "product_title": "iPhone 12 64GB Blue",
+      "product_image_url": "Not available",
+      "product_url": "https://www.amazon.eg/-/en/Apple-MGH93LL-A-iPhone-64GB/dp/B08L5P7DYY",
+      "product_current_price": 0.0,
+      "product_original_price": 0.0,
+      "product_discount_percentage": 0.0,
+      "product_specs": [
+        {
+          "specification_name": "Color",
+          "specification_value": "Blue"
+        },
+        {
+          "specification_name": "Storage",
+          "specification_value": "64GB"
+        }
+      ],
+      "agent_recommendation_rank": 1,
+      "agent_recommendation_notes": [
+        "Available on Amazon Egypt with fast and free shipping."
+      ]
+    },
+    {
+      "page_url": "https://btech.com/en/apple-iphone-12-64gb-black.html",
+      "product_title": "Apple iPhone 12, 64GB, 5G - Black",
+      "product_image_url": "Not available",
+      "product_url": "https://btech.com/en/apple-iphone-12-64gb-black.html",
+      "product_current_price": 0.0,
+      "product_original_price": 0.0,
+      "product_discount_percentage": 0.0,
+      "product_specs": [
+        {
+          "specification_name": "Display",
+          "specification_value": "6.1\" Super Retina XDR OLED"
+        },
+        {
+          "specification_name": "Storage",
+          "specification_value": "64GB"
+        },
+        {
+          "specification_name": "Processor",
+          "specification_value": "Apple A14 Bionic"
+        }
+      ],
+      "agent_recommendation_rank": 2,
+      "agent_recommendation_notes": [
+        "Available on BTech with detailed specifications."
+      ]
+    }
+  ]
+}
