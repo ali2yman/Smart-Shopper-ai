@@ -7,7 +7,7 @@ from Tasks.Scraping_task2 import Scraping_task
 from crewai.knowledge.source.string_knowledge_source import StringKnowledgeSource  
 from crewai import Crew, Process, LLM
 from tavily import TavilyClient
-import agentops
+# import agentops
 import os
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
@@ -19,14 +19,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DEEPSEEK_API_KEY = os.getenv("DEEP_SEEK_API_KEY")
-AGENT_OPS_KEY = os.getenv("AGENTOPS_API_KEY")
+# AGENT_OPS_KEY = os.getenv("AGENTOPS_API_KEY")
 
 # Initialize AgentOps
-agentops.init(
-    api_key=AGENT_OPS_KEY,
-    skip_auto_end_session=True,
-    default_tags=['crewai']
-)
+# agentops.init(
+#     api_key=AGENT_OPS_KEY,
+#     skip_auto_end_session=True,
+#     default_tags=['crewai']
+# )
 
 # Use LLM class from CrewAI, not openai.OpenAI
 DeepSeek_llm = LLM(
@@ -53,8 +53,8 @@ scraping_agent = Scraping_agent(DeepSeek_llm)
 
 # Create tasks
 keywords_search_task = create_keywords_search_task(
-    product_name="iphone 12",
-    websites_list=["www.amazon.eg"],
+    product_name="iphone x",
+    websites_list=["amazon.eg", "noon.eg"],
     country_name="Egypt",
     no_keywords=10,
     language="english",

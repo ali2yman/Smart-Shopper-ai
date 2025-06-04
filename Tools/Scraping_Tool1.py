@@ -55,10 +55,33 @@ def web_scraping_tool(page_url: str):
     """
     details = scrapegraph.smartscraper(
         website_url=page_url,
-        user_prompt="Extract ```json\n" + SingleExtractedProduct.model_json_schema() + "```\n From the web page"
+        user_prompt="Extract ```json\n" + SingleExtractedProduct.schema_json() + "```\n From the web page"
     )
 
     return {
         "page_url": page_url,
         "details": details
     }
+
+
+import json
+from crewai import TaskOutput
+
+def process_web_scraping_tool_output(tool_output):
+    # Check if tool_output is a string, then convert it
+    if isinstance(tool_output, str):
+        tool_output = json.loads(tool_output)
+    
+    # Validate and ensure tool_output is a dictionary
+    if isinstance(tool_output, dict):
+        return TaskOutput(json_dict=tool_output)
+    else:
+        raise ValueError("Tool output is not a valid dictionary")
+
+# Usage example
+try:
+    # Assuming scrape function returns a JSON string
+    tool_output = '{"products": [{"product_title": "iPhone"}]}'
+    task_output = process_web_scraping_tool_output(tool_output)
+except ValueError as e:
+    print(f"Error processing output: {e}")
