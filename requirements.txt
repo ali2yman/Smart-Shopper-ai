@@ -5,7 +5,4 @@ scrapegraph-py==1.12.0
 tavily-python==0.7.4
 python-dotenv==1.1.0
 streamlit==1.45.0
-
-
-
 pysqlite3-binary
