@@ -1,6 +1,1 @@
-the final answer to the original input question
-```
-Thought: I will continue extracting product details from the rest of the URLs.
-
-Action: web_scraping_tool
-Action Input: {"page_url": "https://2b.com.eg/en/dell-g15-5515-amd-ryzentm-7-5800h-8gb-512gb-ssd-nvidiar-geforce-rtxtm-3050-4gb-15-6-fhd-phantom-grey.html"}
+{'products': []}
