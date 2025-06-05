@@ -3,10 +3,8 @@ from tavily import TavilyClient
 import os
 
 
-TAVILY_KEY = os.getenv("TAVILY_API_KEY")    
+search_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 
-
-search_client = TavilyClient(api_key=TAVILY_KEY)
 
 @tool
 def search_engine_tool(query: str):
