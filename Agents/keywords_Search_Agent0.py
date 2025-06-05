@@ -3,7 +3,6 @@ from crewai import Agent
 
 def create_keywords_search_agent(llm):
     return Agent(
-        name="keywords_search_agent",
         role="Search Query Strategist",
         goal="\n".join([
             "Generate a diverse set of highly relevant search queries.",

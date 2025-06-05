@@ -45,11 +45,11 @@ def search_engine_task(score_th: float, Search_engine_agent) -> Task:
             "Your task is to perform product searches using a list of suggested queries.",
             "For each query, gather search results from different websites.",
             "Focus only on single-product e-commerce pages (e.g., Amazon product pages, Walmart listings).",
-            f"Discard any result with a confidence score below {score_th}.",
+            f"Discard any result with a confidence score below ({score_th}).",
             "Avoid suspicious, spammy, or non-ecommerce links.",
             "The goal is to collect reliable product information to support price comparison across sources."
         ]),
-        expected_output="A JSON object containing a list of valid search results for each query.",
+        expected_output="A JSON object containing the search results.",
         output_json=AllSearchResults,
         output_file=output_path,
         agent=Search_engine_agent

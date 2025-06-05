@@ -1,27 +1,26 @@
 from crewai import Task
 import os
+from pydantic import BaseModel, Field
+from typing import List
 from Tools import Scraping_Tool1
 
 
 def Scraping_task(top_recommendations_no: int, scraping_agent) -> Task:
-
-    # Define output directory and path
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../Data'))
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "step_3_scraping_results.json")
 
-    # Task description
-    descriptionnn="\n".join([
-        "The task is to extract product details from any ecommerce store page url.",
-        "The task has to collect results from multiple pages urls.",
-        "Collect the best {top_recommendations_no} products from the search results.",
-    ])
-
+    class ScrapingResults(BaseModel):
+        products: List[Scraping_Tool1.SingleExtractedProduct]
 
     return Task(
-        description=descriptionnn,
-        expected_output="A JSON object containing detailed product information.",
-        output_json=Scraping_Tool1.AllExtractedProducts,
+        description="\n".join([
+            f"Extract product details from top {top_recommendations_no} e-commerce store URLs.",
+            "Collect comprehensive product information.",
+            "Ensure data integrity and completeness."
+        ]),
+        expected_output="A JSON object containing product details",
+        output_json=ScrapingResults,  # Use the new model
         output_file=output_path,
         agent=scraping_agent
     )

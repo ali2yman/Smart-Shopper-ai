@@ -8,7 +8,7 @@ def Scraping_agent(llm):
     goal="To extract details from any website",
     backstory="The agent is designed to help in looking for required values from any website url. These details will be used to decide which best product to buy.",
     llm=llm,
-    verbose=True,
-    tools=[Scraping_Tool1.web_scraping_tool]
+    tools=[Scraping_Tool1.web_scraping_tool],
+    verbose=True
     )
 

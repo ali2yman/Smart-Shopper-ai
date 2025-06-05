@@ -17,7 +17,7 @@ def create_keywords_search_task(
         queries: List[str] = Field(
             ..., 
             title="Suggested search queries to be passed to the search engine",
-            min_items=1,
+            min_items=3,
             max_items=no_keywords
         )
 

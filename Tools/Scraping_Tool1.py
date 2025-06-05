@@ -23,21 +23,31 @@ class ProductSpec(BaseModel):
 class SingleExtractedProduct(BaseModel):
     page_url: str = Field(..., title="The original url of the product page")
     product_title: str = Field(..., title="The title of the product")
-    product_image_url: str = Field(..., title="The url of the product image")
+    product_image_url: str = Field(default=None, title="The url of the product image")
     product_url: str = Field(..., title="The url of the product")
     product_current_price: float = Field(..., title="The current price of the product")
-    product_original_price: float = Field(title="The original price of the product before discount. Set to None if no discount", default=None)
-    product_discount_percentage: float = Field(title="The discount percentage of the product. Set to None if no discount", default=None)
+    product_original_price: float = Field(default=None, title="The original price of the product before discount")
+    product_discount_percentage: float = Field(default=None, title="The discount percentage of the product")
 
-    product_specs: List[ProductSpec] = Field(..., title="The specifications of the product. Focus on the most important specs to compare.", min_items=1, max_items=5)
+    product_specs: List[ProductSpec] = Field(
+        default_factory=list, 
+        title="The specifications of the product", 
+        max_items=5
+    )
 
-    agent_recommendation_rank: int = Field(..., title="The rank of the product to be considered in the final procurement report. (out of 5, Higher is Better) in the recommendation list ordering from the best to the worst")
-    agent_recommendation_notes: List[str]  = Field(..., title="A set of notes why would you recommend or not recommend this product to the company, compared to other products.")
-
+    agent_recommendation_rank: int = Field(
+        default=1, 
+        ge=1, 
+        le=5, 
+        title="Rank of the product in recommendation list"
+    )
+    agent_recommendation_notes: List[str] = Field(
+        default_factory=list, 
+        title="Notes about product recommendation"
+    )
 
 class AllExtractedProducts(BaseModel):
     products: List[SingleExtractedProduct]
-
 
 # ==========================
 # Web Scraping Tool
@@ -46,42 +56,56 @@ class AllExtractedProducts(BaseModel):
 @tool
 def web_scraping_tool(page_url: str):
     """
-    An AI Tool to help an agent to scrape a web page
+    AI-powered web scraping tool to extract detailed product information from e-commerce pages.
+
+    This tool uses ScrapegraphAI to intelligently scrape and extract structured product details 
+    from various e-commerce websites. It aims to collect comprehensive information about 
+    a specific product, including:
+    - Product title
+    - URL
+    - Price details
+    - Product specifications
+    - Recommendation insights
+
+    Args:
+        page_url (str): The full URL of the product page to be scraped.
+
+    Returns:
+        dict: A dictionary containing extracted product information, structured according 
+              to the SingleExtractedProduct model. Returns an empty product list if 
+              scraping fails.
 
     Example:
-    web_scraping_tool(
-        page_url="https://www.noon.com/egypt-en/15-bar-fully-automatic-espresso-machine-1-8-l-1500"
-    )
-    """
-    details = scrapegraph.smartscraper(
-        website_url=page_url,
-        user_prompt="Extract ```json\n" + SingleExtractedProduct.schema_json() + "```\n From the web page"
-    )
-
-    return {
-        "page_url": page_url,
-        "details": details
-    }
-
-
-import json
-from crewai import TaskOutput
-
-def process_web_scraping_tool_output(tool_output):
-    # Check if tool_output is a string, then convert it
-    if isinstance(tool_output, str):
-        tool_output = json.loads(tool_output)
+        web_scraping_tool("https://www.example.com/product/iphone-15")
     
-    # Validate and ensure tool_output is a dictionary
-    if isinstance(tool_output, dict):
-        return TaskOutput(json_dict=tool_output)
-    else:
-        raise ValueError("Tool output is not a valid dictionary")
+    Raises:
+        Various exceptions related to network, parsing, or API issues may be handled internally.
+    """
+    try:
+        # Attempt to scrape the webpage
+        details = scrapegraph.smartscraper(
+            website_url=page_url,
+            user_prompt="Extract ```json\n" + json.dumps(SingleExtractedProduct.model_json_schema()) + "```\n From the web page"
+        )
 
-# Usage example
-try:
-    # Assuming scrape function returns a JSON string
-    tool_output = '{"products": [{"product_title": "iPhone"}]}'
-    task_output = process_web_scraping_tool_output(tool_output)
-except ValueError as e:
-    print(f"Error processing output: {e}")
+        # Handle potential string or dictionary responses
+        if isinstance(details, str):
+            try:
+                details = json.loads(details)
+            except json.JSONDecodeError:
+                return {"products": []}
+
+        # Validate and convert to expected format
+        try:
+            validated_product = SingleExtractedProduct(**details)
+            return {
+                "products": [validated_product.model_dump()]
+            }
+        except ValidationError:
+            # Log validation errors if needed
+            return {"products": []}
+
+    except Exception as e:
+        # Log the exception
+        print(f"Scraping error for {page_url}: {e}")
+        return {"products": []}
