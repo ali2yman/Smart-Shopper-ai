@@ -3,7 +3,7 @@ from tavily import TavilyClient
 import os
 
 
-TAVILY_KEY = os.getenv("TavilyAPI")    
+TAVILY_KEY = os.getenv("TAVILY_API_KEY")    
 
 
 search_client = TavilyClient(api_key=TAVILY_KEY)
