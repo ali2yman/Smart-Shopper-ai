@@ -38,7 +38,7 @@ SmartShopper AI is an advanced, AI-powered procurement assistant designed to hel
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/yourusername/SmartShopper-AI.git
+    git clone https://github.com/ali2yman/SmartShopper-AI.git
     cd SmartShopper-AI
     ```
 
